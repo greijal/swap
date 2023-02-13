@@ -9,6 +9,8 @@ public class RepositoryMessage implements Serializable {
     private String repository;
     private Date requestDate;
 
+    public RepositoryMessage() {
+    }
 
     public RepositoryMessage(String owner, String repository, Date requestDate) {
         this.owner = owner;
@@ -54,5 +56,12 @@ public class RepositoryMessage implements Serializable {
         return Objects.hash(owner, repository, requestDate);
     }
 
-
+    @Override
+    public String toString() {
+        return "RepositoryMessage{" +
+                "owner='" + owner + '\'' +
+                ", repository='" + repository + '\'' +
+                ", requestDate=" + requestDate +
+                '}';
+    }
 }

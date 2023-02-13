@@ -15,6 +15,7 @@ dependencies {
     implementation 'org.springframework.kafka:spring-kafka'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation project(path: ':client')
+    implementation project(path: ':dto')
 
     testImplementation 'io.projectreactor:reactor-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
