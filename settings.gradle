@@ -1,5 +1,5 @@
 rootProject.name = 'swap'
 include 'service'
 include 'client'
-
+include 'dto'
 

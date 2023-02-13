@@ -2,7 +2,7 @@ package com.swap.service.controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.swap.service.dto.RepositoryRequestDTO;
+import com.swap.service.dto.RepositoryRequest;
 import com.swap.service.service.RepositoryService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class GitControllerTest {
     @DisplayName("Test post request info")
     void infoTest() throws Exception {
 
-        var request = new RepositoryRequestDTO();
+        var request = new RepositoryRequest();
         request.setOwner("owner");
         request.setRepository("repo");
 
@@ -49,7 +49,7 @@ class GitControllerTest {
     @DisplayName("Test post request info and repo not exist")
     void infoRepoNotFoundTest() throws Exception {
 
-        var request = new RepositoryRequestDTO();
+        var request = new RepositoryRequest();
         request.setOwner("owner");
         request.setRepository("repo");
 
@@ -72,7 +72,7 @@ class GitControllerTest {
     @DisplayName("Test post request invalid")
     void infoInvalidRequestTest(String owner, String repo) throws Exception {
 
-        var request = new RepositoryRequestDTO();
+        var request = new RepositoryRequest();
         request.setOwner(owner);
         request.setRepository(repo);
 

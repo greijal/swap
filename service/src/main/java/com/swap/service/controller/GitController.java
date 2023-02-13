@@ -1,6 +1,6 @@
 package com.swap.service.controller;
 
-import com.swap.service.dto.RepositoryRequestDTO;
+import com.swap.service.dto.RepositoryRequest;
 import com.swap.service.service.RepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,10 +19,13 @@ public class GitController {
     private RepositoryService repositoryservice;
 
     @PostMapping("/repository")
-    public ResponseEntity info(@RequestBody @Valid RepositoryRequestDTO request) {
+    public ResponseEntity info(@RequestBody @Valid RepositoryRequest request) {
+
         if (repositoryservice.exist(request.getOwner(), request.getRepository())) {
+            repositoryservice.info(request.getOwner(), request.getRepository());
             return ResponseEntity.ok().build();
         }
+
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 

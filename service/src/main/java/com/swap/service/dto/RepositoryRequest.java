@@ -4,7 +4,7 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class RepositoryRequestDTO implements Serializable {
+public class RepositoryRequest implements Serializable {
 
     @NotBlank
     private String owner;
@@ -31,7 +31,7 @@ public class RepositoryRequestDTO implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RepositoryRequestDTO that = (RepositoryRequestDTO) o;
+        RepositoryRequest that = (RepositoryRequest) o;
         return Objects.equals(owner, that.owner) && Objects.equals(repository, that.repository);
     }
 
