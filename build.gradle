@@ -1,3 +1,16 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.5.0.2730"
+
+    }
+}
 repositories {
     mavenCentral()
 }
@@ -5,6 +18,7 @@ repositories {
 allprojects {
     apply plugin: "jacoco"
     apply plugin: 'java'
+    apply plugin: "org.sonarqube"
     dependencies {
         implementation "org.jacoco:org.jacoco.ant:0.8.8"
     }
@@ -42,3 +56,14 @@ task jacocoMerge(type: JacocoMerge) {
     executionData = files(subprojects.jacocoTestReport.executionData)
     destinationFile = file("$rootProject.buildDir/jacoco/summary.exec")
 }
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "greijal_swap"
+        property "sonar.organization", "greijal"
+        property "sonar.host.url", "https://sonarcloud.io"
+    }
+}
+
+
+project.tasks["sonarqube"].dependsOn "jacocoRootReport", "jacocoMerge"
