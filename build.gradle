@@ -38,7 +38,6 @@ subprojects {
     }
 }
 task jacocoRootReport(type: JacocoReport) {
-    dependsOn = subprojects.test
     additionalSourceDirs.setFrom files(subprojects.sourceSets.main.allSource.srcDirs)
     sourceDirectories.setFrom files(subprojects.sourceSets.main.allSource.srcDirs)
     classDirectories.setFrom files(subprojects.sourceSets.main.output)
@@ -50,7 +49,6 @@ task jacocoRootReport(type: JacocoReport) {
     }
 }
 task jacocoMerge(type: JacocoMerge) {
-    dependsOn = subprojects.test
     executionData = files(subprojects.jacocoTestReport.executionData)
     destinationFile = file("$rootProject.buildDir/jacoco/summary.exec")
 }
