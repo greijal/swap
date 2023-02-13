@@ -1,0 +1,44 @@
+repositories {
+    mavenCentral()
+}
+
+allprojects {
+    apply plugin: "jacoco"
+    apply plugin: 'java'
+    dependencies {
+        implementation "org.jacoco:org.jacoco.ant:0.8.8"
+    }
+
+}
+
+subprojects {
+    jacocoTestReport {
+        additionalSourceDirs.setFrom files(sourceSets.main.allSource.srcDirs)
+        sourceDirectories.setFrom files(sourceSets.main.allSource.srcDirs)
+        classDirectories.setFrom files(sourceSets.main.output)
+        reports {
+            html.enabled = true
+            xml.enabled = true
+            csv.enabled = false
+        }
+    }
+    build.dependsOn("jacocoTestReport")
+
+}
+task jacocoRootReport(type: JacocoReport) {
+    dependsOn = subprojects.test
+    additionalSourceDirs.setFrom files(subprojects.sourceSets.main.allSource.srcDirs)
+    sourceDirectories.setFrom files(subprojects.sourceSets.main.allSource.srcDirs)
+    classDirectories.setFrom files(subprojects.sourceSets.main.output)
+    executionData.setFrom files(subprojects.jacocoTestReport.executionData)
+    reports {
+        html.enabled = true
+        xml.enabled = true
+        csv.enabled = false
+    }
+}
+task jacocoMerge(type: JacocoMerge) {
+    dependsOn = subprojects.test
+    executionData = files(subprojects.jacocoTestReport.executionData)
+    destinationFile = file("$rootProject.buildDir/jacoco/summary.exec")
+}

@@ -1,0 +1,19 @@
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.github.openfeign:feign-core:12.1'
+    implementation 'io.github.openfeign:feign-jackson:12.1'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.8.2'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.3.1'
+    testImplementation group: 'org.junit.platform', name: 'junit-platform-runner', version: '1.8.2'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.register("prepareKotlinBuildScriptModel") {}
