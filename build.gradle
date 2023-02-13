@@ -64,6 +64,3 @@ sonarqube {
         property "sonar.host.url", "https://sonarcloud.io"
     }
 }
-
-
-project.tasks["sonarqube"].dependsOn "jacocoRootReport", "jacocoMerge"
