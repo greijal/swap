@@ -36,8 +36,6 @@ subprojects {
             csv.enabled = false
         }
     }
-    build.dependsOn("jacocoTestReport")
-
 }
 task jacocoRootReport(type: JacocoReport) {
     dependsOn = subprojects.test
