@@ -20,13 +20,16 @@ import java.util.Map;
 @SpringBootApplication()
 public class ServiceApplication {
 
+    @Value("${git.token}")
+    private String gitToken;
+
     public static void main(String[] args) {
         SpringApplication.run(ServiceApplication.class, args);
     }
 
     @Bean
     public GitHubClient gitHubClient() {
-        return BuilderClient.create();
+        return BuilderClient.create(gitToken);
     }
 
 

@@ -89,4 +89,17 @@ public class Repository implements Serializable {
     public int hashCode() {
         return Objects.hash(id, nodeId, name, fullName, _private, htmlUrl, description);
     }
+
+    @Override
+    public String toString() {
+        return "Repository{" +
+                "id=" + id +
+                ", nodeId='" + nodeId + '\'' +
+                ", name='" + name + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", _private=" + _private +
+                ", htmlUrl='" + htmlUrl + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
