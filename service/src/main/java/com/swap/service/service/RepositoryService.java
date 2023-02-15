@@ -18,8 +18,8 @@ public class RepositoryService {
     private final Logger LOG = LoggerFactory.getLogger(RepositoryService.class);
     private final String TOPIC_NAME = "repository.info";
 
-    private KafkaTemplate<String, Object> kafkaTemplate;
-    private GitHubClient gitHubClient;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
+    private final GitHubClient gitHubClient;
 
     @Autowired
     public RepositoryService(KafkaTemplate<String, Object> kafkaTemplate,
@@ -34,18 +34,19 @@ public class RepositoryService {
 
     public void info(String owner, String repository) {
 
-        var message = new RepositoryMessage(owner,repository, new Date());
+        var message = new RepositoryMessage(owner, repository, new Date());
 
-        kafkaTemplate.send(TOPIC_NAME,message)
+        kafkaTemplate.send(TOPIC_NAME, message)
                 .addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
                     @Override
                     public void onFailure(Throwable ex) {
-                        LOG.error("Error send message. "+message );
+                        LOG.error("Error send message. " + message);
                         throw new RuntimeException(ex);
                     }
+
                     @Override
                     public void onSuccess(SendResult<String, Object> result) {
-                        LOG.info("Post new message with success." );
+                        LOG.info("Post new message with success.");
                         LOG.debug(result.toString());
                     }
                 });

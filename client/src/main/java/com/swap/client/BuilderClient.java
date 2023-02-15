@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import feign.*;
 import feign.codec.DecodeException;
 import feign.codec.Decoder;
-import feign.codec.ErrorDecoder;
 import feign.jackson.JacksonDecoder;
 import feign.jackson.JacksonEncoder;
 
@@ -27,7 +26,7 @@ public class BuilderClient {
                 .logger(new Logger.ErrorLogger())
                 .options(new Request.Options(10, TimeUnit.SECONDS, 60, TimeUnit.SECONDS, true))
                 .retryer(new Retryer.Default(SECONDS.toMillis(10), SECONDS.toMillis(15), 10))
-                .requestInterceptor(template -> template.header("Authorization", "Bearer "+token))
+                .requestInterceptor(template -> template.header("Authorization", "Bearer " + token))
                 .target(GitHubClient.class, "https://api.github.com");
     }
 
@@ -35,17 +34,20 @@ public class BuilderClient {
         return new ObjectMapper()
                 .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                 .configure(SerializationFeature.INDENT_OUTPUT, true)
+                .configure(DeserializationFeature.FAIL_ON_MISSING_CREATOR_PROPERTIES, false)
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     }
 
     public static class CustomDecoder implements Decoder {
-        private ObjectMapper objectMapper;
+        private final ObjectMapper objectMapper;
+
         public CustomDecoder(ObjectMapper objectMapper) {
             this.objectMapper = objectMapper;
         }
-        public Object decode(Response response, Type type) throws IOException, DecodeException, FeignException {
-            if(response.status()==200 &&
-                    response.request().url().endsWith("/stats/contributors")){
+
+        public Object decode(Response response, Type type) throws IOException, FeignException {
+            if (response.status() == 202 &&
+                    response.request().url().endsWith("/stats/contributors")) {
                 throw new RetryableException(
                         response.status(),
                         "Waiting GitHub",
@@ -53,7 +55,7 @@ public class BuilderClient {
                         null,
                         response.request());
             }
-            return new JacksonEncoder(objectMapper);
+            return new JacksonDecoder(objectMapper).decode(response,type);
         }
     }
 }

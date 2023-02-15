@@ -44,7 +44,7 @@ class GitControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(repositoryService,times(1)).info("owner", "repo");
+        verify(repositoryService, times(1)).info("owner", "repo");
 
     }
 

@@ -21,6 +21,9 @@ public class Repository implements Serializable {
     @JsonProperty("description")
     private String description;
 
+    public Repository() {
+    }
+
     public Integer getId() {
         return id;
     }

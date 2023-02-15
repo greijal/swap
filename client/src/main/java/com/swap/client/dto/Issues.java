@@ -18,6 +18,9 @@ public class Issues implements Serializable {
     @JsonProperty("created_at")
     private Date createdAt;
 
+    public Issues() {
+    }
+
     public String getTitle() {
         return title;
     }
@@ -73,7 +76,7 @@ public class Issues implements Serializable {
                 '}';
     }
 
-    public class Label implements Serializable{
+    public static class Label implements Serializable {
         @JsonProperty("name")
         private String name;
 
